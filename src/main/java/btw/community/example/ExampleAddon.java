@@ -2,12 +2,13 @@ package btw.community.example;
 
 import btw.AddonHandler;
 import btw.BTWAddon;
+import btw.community.kittystesting.blocks.KittysBlocks;
 import btw.community.kittystesting.items.KittysItems;
 
-public class KittysFirstAddon extends BTWAddon {
-    private static KittysFirstAddon instance;
+public class ExampleAddon extends BTWAddon {
+    private static ExampleAddon instance;
 
-    public KittysFirstAddon() {
+    public ExampleAddon() {
         super();
     }
 
@@ -16,6 +17,7 @@ public class KittysFirstAddon extends BTWAddon {
         AddonHandler.logMessage(this.getName() + " Version " + this.getVersionString() + " Initializing...");
 
         KittysItems.InitializeItems();
+        KittysBlocks.InitializeBlocks();
 
     }
 }
