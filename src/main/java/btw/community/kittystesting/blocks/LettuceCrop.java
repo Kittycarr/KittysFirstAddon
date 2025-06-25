@@ -16,12 +16,12 @@ public class LettuceCrop extends DailyGrowthCropsBlock {
 
     @Override
     protected int getCropItemID() {
-        return 0;
+        return 6901;              //needs to be changed to the ID of the corresponding Item
     }
 
     @Override
     protected int getSeedItemID() {
-        return 0;
+        return 6902;              //needs to be changed to the ID of the corresponding Item
     }
 
     @Environment(value= EnvType.CLIENT)
