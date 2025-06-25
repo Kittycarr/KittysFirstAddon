@@ -1,7 +1,6 @@
 package btw.community.kittystesting.blocks;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Material;
+import net.minecraft.src.*;
 
 public class KittysBlocks {
 
@@ -11,6 +10,8 @@ public class KittysBlocks {
 
     public static void InitializeBlocks() {
         lettuceCrop = (LettuceCrop) new LettuceCrop(693).hideFromEMI();
-        riceCooker = (RiceCooker) new RiceCooker(695, Material.iron);
+        riceCooker = (RiceCooker) new RiceCooker(695).setCreativeTab(CreativeTabs.tabRedstone);
+
+        Item.itemsList[riceCooker.blockID] = new ItemBlockWithMetadata(riceCooker.blockID -256, riceCooker).setUnlocalizedName("ricecooker").setMaxStackSize(1);
     }
 }
