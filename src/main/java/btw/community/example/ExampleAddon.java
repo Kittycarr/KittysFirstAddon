@@ -2,6 +2,7 @@ package btw.community.example;
 
 import btw.AddonHandler;
 import btw.BTWAddon;
+import btw.community.kittystesting.Recipes;
 import btw.community.kittystesting.blocks.KittysBlocks;
 import btw.community.kittystesting.items.KittysItems;
 
@@ -19,5 +20,11 @@ public class ExampleAddon extends BTWAddon {
         KittysItems.InitializeItems();
         KittysBlocks.InitializeBlocks();
 
+        Recipes.addRecipes();
+
     }
+
+
+
+
 }

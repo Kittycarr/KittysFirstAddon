@@ -13,5 +13,6 @@ public class KittysBlocks {
         riceCooker = (RiceCooker) new RiceCooker(695).setCreativeTab(CreativeTabs.tabRedstone);
 
         Item.itemsList[riceCooker.blockID] = new ItemBlockWithMetadata(riceCooker.blockID -256, riceCooker).setUnlocalizedName("ricecooker").setMaxStackSize(1);
+        TileEntity.addMapping(TileEntityRiceCooker.class, "RiceCooker");
     }
 }

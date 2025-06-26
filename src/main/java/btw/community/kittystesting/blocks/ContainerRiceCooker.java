@@ -30,6 +30,9 @@ public class ContainerRiceCooker extends Container {
                 // the same with the ones below, those are the playerinventory
             }
         }
+        int l2 = 3;
+        int i2 = 1;
+        this.addSlotToContainer(new Slot(tileEntityRiceCooker, l2 +i2 * 4, 77 + l2 * 18, 17 + i2 * 18));
         //Playerinventory: first 3 rows horizontally
         for (int j = 0; j < 3; ++j) {
             for (int i1 = 0; i1 < 9; ++i1) {
