@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class TileEntityRiceCooker extends TileEntity implements IInventory {
 
-    private ItemStack[] riceCookerContents = new ItemStack[getSizeInventory()];
+    private ItemStack[] riceCookerContents = new ItemStack[16];
 
     @Override
     public int getSizeInventory() {
@@ -40,6 +40,7 @@ public class TileEntityRiceCooker extends TileEntity implements IInventory {
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
+        super.onInventoryChanged();
         this.riceCookerContents[i] = itemStack;
         if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) {
             itemStack.stackSize = this.getInventoryStackLimit();
