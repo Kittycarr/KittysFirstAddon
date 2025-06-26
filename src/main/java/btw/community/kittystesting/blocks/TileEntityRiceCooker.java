@@ -5,9 +5,12 @@ import net.minecraft.src.*;
 
 import java.util.Random;
 
-public class TileEntityRiceCooker extends TileEntity implements IInventory {
-    private ItemStack[] riceCookerContents = new ItemStack[16];
+//Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
+//                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
 
+public class TileEntityRiceCooker extends TileEntity implements IInventory {
+
+    private ItemStack[] riceCookerContents = new ItemStack[getSizeInventory()];
 
     @Override
     public int getSizeInventory() {
@@ -42,15 +45,6 @@ public class TileEntityRiceCooker extends TileEntity implements IInventory {
             itemStack.stackSize = this.getInventoryStackLimit();
         }
         this.onInventoryChanged();
-    }
-
-    public int addItem(ItemStack itemStack) {
-        for (int i = 0; i < this.riceCookerContents.length; ++i) {
-            if (this.riceCookerContents[i] != null && this.riceCookerContents[i].itemID != 0) continue;
-            this.setInventorySlotContents(i, itemStack);
-            return i;
-        }
-        return -1;
     }
 
     @Override

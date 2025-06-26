@@ -7,6 +7,8 @@ import btw.inventory.util.InventoryUtils;
 import btw.util.MiscUtils;
 import net.minecraft.src.*;
 
+//Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
+//                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
 
 public class RiceCooker extends BlockContainer {
 

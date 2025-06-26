@@ -1,14 +1,14 @@
 package btw.community.kittystesting.blocks;
 
-import btw.block.tileentity.dispenser.BlockDispenserTileEntity;
-import btw.client.gui.BlockDispenserGui;
-import btw.inventory.BTWContainers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.GuiContainer;
 
-public class KittysContainers extends BTWContainers {
+//Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
+//                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
+
+public class KittysContainers {
     public static int riceCookerContainerID = 696;
 
     @Environment(value= EnvType.CLIENT)

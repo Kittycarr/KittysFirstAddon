@@ -1,12 +1,15 @@
 package btw.community.kittystesting.blocks;
 
-import btw.block.tileentity.dispenser.BlockDispenserTileEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.src.*;
 
+//Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
+//                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
+
 public class ContainerRiceCooker extends Container {
+
     private TileEntityRiceCooker localTileEntity;
+
+    //probably not needed but idk :)
     private static final int NUM_SLOTS = 9;
 
 
@@ -16,22 +19,27 @@ public class ContainerRiceCooker extends Container {
     }
 
 
-
-    public ContainerRiceCooker(IInventory iInventory, TileEntityRiceCooker tileEntityRiceCooker) {
+    //this is the blueprint for the actual slots, check out the GUI for the textures
+    public ContainerRiceCooker(IInventory iinventory, TileEntityRiceCooker tileEntityRiceCooker) {
         this.localTileEntity = tileEntityRiceCooker;
         this.localTileEntity.openChest();
-        for (int i = 0; i < 4; ++i) {
-            for (int l = 0; l < 4; ++l) {
-                this.addSlotToContainer(new Slot(tileEntityRiceCooker, l + i * 4, 53 + l * 18, 17 + i * 18));
+        for (int i = 0; i < 3; ++i) {        //amount of slots vertically
+            for (int l = 0; l < 3; ++l) {    //amount of slots horizontally
+                this.addSlotToContainer(new Slot(tileEntityRiceCooker, l + i * 4, 62 + l * 18, 17 + i * 18));
+                // Placement of slots, can change first number each (before "+")     par3: horizontally    par4: vertically
+                // the same with the ones below, those are the playerinventory
             }
         }
+        //Playerinventory: first 3 rows horizontally
         for (int j = 0; j < 3; ++j) {
             for (int i1 = 0; i1 < 9; ++i1) {
-                this.addSlotToContainer(new Slot(iInventory, i1 + j * 9 + 9, 8 + i1 * 18, 102 + j * 18));
+                //this.addSlotToContainer(new Slot(iinventory, i1 + j * 9 + 9, 8 + i1 * 18, 102 + j * 18));
+                this.addSlotToContainer(new Slot(iinventory, i1 + j * 9 + 9, 8 + i1 * 18, 84 + j * 18));
             }
         }
+        //Playerinventory: last row horizontally, for this one you can just change par4 the same as you did with the others (no need for multipication, whatsoever)
         for (int k = 0; k < 9; ++k) {
-            this.addSlotToContainer(new Slot(iInventory, k, 8 + k * 18, 160));
+            this.addSlotToContainer(new Slot(iinventory, k, 8 + k * 18, 142));
         }
     }
 
@@ -42,7 +50,7 @@ public class ContainerRiceCooker extends Container {
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            if (iSlotIndex < 16 ? !this.mergeItemStack(itemstack1, 16, this.inventorySlots.size(), true) : !this.mergeItemStack(itemstack1, 0, 16, false)) {
+            if (iSlotIndex < 9 ? !this.mergeItemStack(itemstack1, 9, this.inventorySlots.size(), true) : !this.mergeItemStack(itemstack1, 0, 9, false)) {
                 return null;
             }
             if (itemstack1.stackSize == 0) {

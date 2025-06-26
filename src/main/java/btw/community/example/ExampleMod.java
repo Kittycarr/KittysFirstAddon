@@ -1,4 +1,4 @@
-package net.fabricmc.example;
+package btw.community.example;
 
 import net.fabricmc.api.ModInitializer;
 

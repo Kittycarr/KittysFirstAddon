@@ -3,10 +3,13 @@ package btw.community.kittystesting.blocks;
 import net.minecraft.src.*;
 import org.lwjgl.opengl.GL11;
 
+//Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
+//                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
+
 public class ContainerRiceCookerGui extends GuiContainer {
     static final int SELECTION_ICON_HEIGHT = 20;
     static final int GUI_HEIGHT = 182;
-    private static final ResourceLocation riceCookerGuiTextures = new ResourceLocation("textures/gui/container/dispenser.png");
+    private static final ResourceLocation RICE_COOKER_GUI_TEXTURES = new ResourceLocation("textures/gui/container/dispenser.png");
     public TileEntityRiceCooker theRiceCooker;
 
     public ContainerRiceCookerGui(InventoryPlayer inventoryPlayer, TileEntityRiceCooker tileEntityRiceCooker) {
@@ -15,16 +18,20 @@ public class ContainerRiceCookerGui extends GuiContainer {
         this.ySize = 182;
     }
 
+    //foreground layer, which is the text in the inventory
     @Override
     protected void drawGuiContainerForegroundLayer(int i, int j) {
-        this.fontRenderer.drawString("Rice Cooker", 48, 6, 0x404040);
-        this.fontRenderer.drawString("Inventory", 8, this.ySize - 94 + 2, 0x404040);
+        //
+        //  par2 is location horizontally     par3 is location vertically
+        this.fontRenderer.drawString("Rice Cooker", 60, 6, 0x404040);
+        this.fontRenderer.drawString("Inventory", 8, this.ySize - 112 + 2, 0x404040);
     }
 
+    //background layer
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        this.mc.renderEngine.bindTexture(riceCookerGuiTextures);
+        this.mc.renderEngine.bindTexture(RICE_COOKER_GUI_TEXTURES);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
