@@ -1,11 +1,19 @@
 package btw.community.kittystesting.blocks;
 
+
+import btw.community.kittystesting.kittyscrafting.RiceCookingManager;
 import net.minecraft.src.*;
 
 //Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
 //                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
 
 public class ContainerRiceCooker extends Container {
+
+
+    public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
+    public IInventory craftResult = new InventoryCraftResult();
+    private World localWorld;
+
 
     private TileEntityRiceCooker localTileEntity;
 
@@ -23,16 +31,19 @@ public class ContainerRiceCooker extends Container {
     public ContainerRiceCooker(IInventory iinventory, TileEntityRiceCooker tileEntityRiceCooker) {
         this.localTileEntity = tileEntityRiceCooker;
         this.localTileEntity.openChest();
+        int fuckThisFuckingSlotThing = 0;
         for (int i = 0; i < 3; ++i) {        //amount of slots vertically
             for (int l = 0; l < 3; ++l) {    //amount of slots horizontally
-                this.addSlotToContainer(new Slot(tileEntityRiceCooker, l + i * 4, 62 + l * 18, 17 + i * 18));
+                this.addSlotToContainer(new Slot(tileEntityRiceCooker, fuckThisFuckingSlotThing, 62 + l * 18, 17 + i * 18));
+                fuckThisFuckingSlotThing++;
                 // Placement of slots, can change first number each (before "+")     par3: horizontally    par4: vertically
                 // the same with the ones below, those are the playerinventory
             }
         }
-        int l2 = 3;
-        int i2 = 1;
-        this.addSlotToContainer(new Slot(tileEntityRiceCooker, l2 +i2 * 4, 77 + l2 * 18, 17 + i2 * 18));
+        this.addSlotToContainer(new SlotRiceCooking(tileEntityRiceCooker, 9,77+3*18,17+1*18 ));
+        //just some testing, ignore this :)
+
+
         //Playerinventory: first 3 rows horizontally
         for (int j = 0; j < 3; ++j) {
             for (int i1 = 0; i1 < 9; ++i1) {
@@ -57,7 +68,9 @@ public class ContainerRiceCooker extends Container {
                 return null;
             }
             if (itemstack1.stackSize == 0) {
-                slot.putStack(null);
+                if (iSlotIndex != 15) {
+                    slot.putStack(null);
+                }
             } else {
                 slot.onSlotChanged();
             }
@@ -79,5 +92,16 @@ public class ContainerRiceCooker extends Container {
     @Override
     public void onCraftGuiOpened(ICrafting craftingInterface) {
         super.onCraftGuiOpened(craftingInterface);
+    }
+
+    @Override
+    public void onCraftMatrixChanged(IInventory iinventory) {
+        ItemStack craftedStack;
+        IRecipe recipe;
+        craftedStack = RiceCookingManager.getInstance().findMatchingRecipeStack(this.craftMatrix, this.localWorld);
+        recipe = RiceCookingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.localWorld);
+
+        this.craftResult.setInventorySlotContents(0, craftedStack);
+        ((SlotCrafting)this.getSlot(0)).setRecipe(recipe);
     }
 }

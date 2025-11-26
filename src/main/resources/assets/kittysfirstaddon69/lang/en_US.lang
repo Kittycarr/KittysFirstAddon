@@ -1,1 +1,10 @@
-item.chickenburger.name=Chicken Burger
+#Items
+item.kittyschickenburger.name=Chicken Burger
+item.kittyslettuce.name=Lettuce
+item.kittyslettuceseed.name=Lettuce Seed
+item.kittyscheese.name=Cheese
+item.kittysslicedbun.name=Sliced Bun
+item.kittyslettuceslice.name=Lettuce Slice
+
+#Blocks
+tile.kittysricecooker.name=Rice Cooker

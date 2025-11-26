@@ -10,11 +10,11 @@ import java.util.Random;
 
 public class TileEntityRiceCooker extends TileEntity implements IInventory {
 
-    private ItemStack[] riceCookerContents = new ItemStack[16];
+    private ItemStack[] riceCookerContents = new ItemStack[10];
 
     @Override
     public int getSizeInventory() {
-        return 16;
+        return 10;
     }
 
     @Override
