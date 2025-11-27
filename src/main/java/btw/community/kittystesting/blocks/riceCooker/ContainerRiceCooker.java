@@ -13,13 +13,7 @@ public class ContainerRiceCooker extends Container {
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
     public IInventory craftResult = new InventoryCraftResult();
     private World localWorld;
-
-
     private TileEntityRiceCooker localTileEntity;
-
-    //probably not needed but idk :)
-    private static final int NUM_SLOTS = 9;
-
 
     @Override
     public boolean canInteractWith(EntityPlayer entityPlayer) {
@@ -41,7 +35,7 @@ public class ContainerRiceCooker extends Container {
             }
         }
         this.addSlotToContainer(new SlotRiceCooking(tileEntityRiceCooker, 9,126,31 ));
-        //just some testing, ignore this :)
+
 
 
         //Playerinventory: first 3 rows horizontally
@@ -68,9 +62,7 @@ public class ContainerRiceCooker extends Container {
                 return null;
             }
             if (itemstack1.stackSize == 0) {
-                if (iSlotIndex != 15) {
-                    slot.putStack(null);
-                }
+                slot.putStack(null);
             } else {
                 slot.onSlotChanged();
             }

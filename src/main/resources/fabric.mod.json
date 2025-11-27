@@ -19,7 +19,7 @@
       "btw.community.example.ExampleMod"
     ],
     "btw:addon": [
-      "btw.community.example.ExampleAddon"
+      "btw.community.example.KittysFirstAddon"
     ]
   },
   "custom": {
