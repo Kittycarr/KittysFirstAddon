@@ -1,6 +1,5 @@
 package btw.community.kittystesting.kittyscrafting;
 
-import btw.crafting.manager.SoulforgeCraftingManager;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ShapelessRecipes;
 

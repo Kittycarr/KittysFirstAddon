@@ -1,4 +1,4 @@
-package btw.community.kittystesting.blocks;
+package btw.community.kittystesting.blocks.riceCooker;
 
 
 import btw.community.kittystesting.kittyscrafting.RiceCookingManager;
@@ -34,13 +34,13 @@ public class ContainerRiceCooker extends Container {
         int fuckThisFuckingSlotThing = 0;
         for (int i = 0; i < 3; ++i) {        //amount of slots vertically
             for (int l = 0; l < 3; ++l) {    //amount of slots horizontally
-                this.addSlotToContainer(new Slot(tileEntityRiceCooker, fuckThisFuckingSlotThing, 62 + l * 18, 17 + i * 18));
+                this.addSlotToContainer(new Slot(tileEntityRiceCooker, fuckThisFuckingSlotThing, 11 + l * 20, 11 + i * 20));
                 fuckThisFuckingSlotThing++;
                 // Placement of slots, can change first number each (before "+")     par3: horizontally    par4: vertically
                 // the same with the ones below, those are the playerinventory
             }
         }
-        this.addSlotToContainer(new SlotRiceCooking(tileEntityRiceCooker, 9,77+3*18,17+1*18 ));
+        this.addSlotToContainer(new SlotRiceCooking(tileEntityRiceCooker, 9,126,31 ));
         //just some testing, ignore this :)
 
 

@@ -1,9 +1,7 @@
-package btw.community.kittystesting.blocks;
+package btw.community.kittystesting.blocks.riceCooker;
 
 import btw.inventory.util.InventoryUtils;
 import net.minecraft.src.*;
-
-import java.util.Random;
 
 //Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
 //                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This

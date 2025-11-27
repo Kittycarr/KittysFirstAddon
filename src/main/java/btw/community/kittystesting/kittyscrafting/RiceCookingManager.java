@@ -1,5 +1,6 @@
 package btw.community.kittystesting.kittyscrafting;
 
+import btw.item.tag.TagOrStack;
 import net.minecraft.src.*;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class RiceCookingManager {
     }
 
     private ShapelessRecipes createShapelessRecipe(ItemStack par1ItemStack, Object[] par2ArrayOfObj) {
-        ArrayList<ItemStack> arraylist = new ArrayList<ItemStack>();
+        List<TagOrStack> arraylist = new ArrayList<TagOrStack>();
         for (Object obj : par2ArrayOfObj) {
             if (obj instanceof ItemStack) {
                 arraylist.add(((ItemStack)obj).copy());
@@ -75,7 +76,7 @@ public class RiceCookingManager {
     }
 
     public void addShapelessRecipe(ItemStack itemstack, Object[] aobj) {
-        ArrayList<ItemStack> arraylist = new ArrayList<ItemStack>();
+        List<TagOrStack> arraylist = new ArrayList<TagOrStack>();
         for (Object obj : aobj) {
             if (obj instanceof ItemStack) {
                 arraylist.add(((ItemStack)obj).copy());

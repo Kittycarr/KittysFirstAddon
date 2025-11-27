@@ -1,15 +1,15 @@
-package btw.community.kittystesting.blocks;
+package btw.community.kittystesting.blocks.riceCooker;
 
 
 import btw.BTWMod;
 import btw.block.BTWBlocks;
 import btw.block.MechanicalBlock;
 import btw.block.util.MechPowerUtils;
+import btw.community.kittystesting.blocks.KittysContainers;
 import btw.inventory.util.InventoryUtils;
 import btw.util.MiscUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loom.configuration.providers.mappings.extras.unpick.UnpickLayer;
 import net.minecraft.src.*;
 
 import java.util.Random;
@@ -21,9 +21,10 @@ import static net.minecraft.src.BlockDispenser.dispenseBehaviorRegistry;
 
 public class RiceCooker extends BlockContainer implements MechanicalBlock {
 
-    protected Icon furnaceTopIcon;
-    protected Icon furnaceFrontIcon;
-    protected Icon field_96473_e;
+    private Icon sideIcon;
+    private Icon frontIcon;
+    private Icon backIcon;
+    private Icon[] iconBySideArray;
 
     public RiceCooker(int par1) {
         super(par1, Material.iron);
@@ -31,7 +32,7 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
         setHardness(2f);
         setPicksEffectiveOn();
         setNonBuoyant();
-        setTextureName("kittysfirstaddon:ricecooker");
+        setTextureName("kittysfirstaddon69:ricecooker");
         this.setStepSound(BTWBlocks.boneStepSound);
     }
 
@@ -87,18 +88,27 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
         return iMetadata & 7;
     }
 
+    public int getFacingBack(int iMetadata) {
+        int currentFront = this.getFacing(iMetadata);
+        return getBack(currentFront);
+    }
+
     public int getFacingBack(World world, int i, int j, int k) {
         int currentFront = this.getFacing(world, i, j, k);
-        int currentBack = currentFront;
-        switch (currentFront){
+        return getBack(currentFront);
+    }
+
+    public int getBack(int facing) {
+        int currentBack = facing;
+        switch (facing){
             case 5, 3, 1:
-                currentBack = currentFront-1;
+                currentBack = facing-1;
                 break;
             case 4, 2, 0:
-                currentBack = currentFront+1;
+                currentBack = facing+1;
                 break;
         }
-        if (currentBack == currentFront){
+        if (currentBack == facing){
             System.out.println("Failed:"+ currentBack);
         }
         return currentBack;
@@ -111,7 +121,7 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
 
     @Override
     public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityLiving, ItemStack stack) {
-        int iFacing = MiscUtils.convertPlacingEntityOrientationToBlockFacingReversed(entityLiving);
+        int iFacing = MiscUtils.convertOrientationToFlatBlockFacingReversed(entityLiving);
         this.setFacing(world, i, j, k, iFacing);
         world.scheduleBlockUpdate(i, j, k, this.blockID, this.tickRate(world));
     }
@@ -132,17 +142,42 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
     }
 
     @Override
-    public Icon getIcon(int par1, int par2) {
-        int var3 = par2 & 7;
-        return par1 == var3 ? (var3 != 1 && var3 != 0 ? this.furnaceFrontIcon : this.field_96473_e) : (var3 != 1 && var3 != 0 ? (par1 != 1 && par1 != 0 ? this.blockIcon : this.furnaceTopIcon) : this.furnaceTopIcon);
+    public Icon getIcon(int side, int metadata) {
+        if (side == 5) {
+            return this.frontIcon;
+        }
+        if (side == 4){
+            return  this.backIcon;
+        }
+        return this.iconBySideArray[side];
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon("furnace_side");
-        this.furnaceTopIcon = par1IconRegister.registerIcon("furnace_top");
-        this.furnaceFrontIcon = par1IconRegister.registerIcon(this.getTextureName() + "_front_horizontal");
-        this.field_96473_e = par1IconRegister.registerIcon(this.getTextureName() + "_front_vertical");
+    public void registerIcons(IconRegister register) {
+        this.iconBySideArray = new Icon[6];
+        this.sideIcon = register.registerIcon(this.textureName+"_side");
+        this.frontIcon = register.registerIcon(this.textureName+"_front");
+        this.backIcon = register.registerIcon(this.textureName+"_back");
+        this.iconBySideArray[0] = register.registerIcon(this.textureName+"_bottom");
+        this.iconBySideArray[1] = register.registerIcon(this.textureName+"_top");
+        this.iconBySideArray[2] = sideIcon;
+        this.iconBySideArray[3] = sideIcon;
+        this.iconBySideArray[4] = sideIcon;
+        this.iconBySideArray[5] = sideIcon;
+    }
+
+    @Override
+    @Environment(value=EnvType.CLIENT)
+    public Icon getBlockTexture(IBlockAccess blockAccess, int i, int j, int k, int iSide) {
+        int iFacing = this.getFacing(blockAccess, i, j, k);
+        int facingBack = this.getFacingBack(blockAccess.getBlockMetadata(i,j,k));
+        if (iSide == iFacing) {
+            return this.frontIcon;
+        }
+        if (iSide == facingBack){
+            return this.backIcon;
+        }
+        return this.iconBySideArray[iSide];
     }
 
     @Override

@@ -1,5 +1,7 @@
 package btw.community.kittystesting.blocks;
 
+import btw.community.kittystesting.blocks.riceCooker.RiceCooker;
+import btw.community.kittystesting.blocks.riceCooker.TileEntityRiceCooker;
 import net.minecraft.src.*;
 
 public class KittysBlocks {

@@ -1,8 +1,8 @@
 package btw.community.example.mixin;
 
-import btw.community.kittystesting.blocks.ContainerRiceCookerGui;
+import btw.community.kittystesting.blocks.riceCooker.ContainerRiceCookerGui;
 import btw.community.kittystesting.blocks.KittysContainers;
-import btw.community.kittystesting.blocks.TileEntityRiceCooker;
+import btw.community.kittystesting.blocks.riceCooker.TileEntityRiceCooker;
 import btw.inventory.BTWContainers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,4 +1,4 @@
-package btw.community.kittystesting.blocks;
+package btw.community.kittystesting.blocks.riceCooker;
 
 import net.minecraft.src.*;
 import org.lwjgl.opengl.GL11;
@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 public class ContainerRiceCookerGui extends GuiContainer {
     static final int SELECTION_ICON_HEIGHT = 20;
     static final int GUI_HEIGHT = 182;
-    private static final ResourceLocation RICE_COOKER_GUI_TEXTURES = new ResourceLocation("textures/gui/container/dispenser.png");
+    private static final ResourceLocation RICE_COOKER_GUI_TEXTURES = new ResourceLocation("kittysfirstaddon69:textures/gui/container/ricecooker_gui.png");
     public TileEntityRiceCooker theRiceCooker;
 
     public ContainerRiceCookerGui(InventoryPlayer inventoryPlayer, TileEntityRiceCooker tileEntityRiceCooker) {
@@ -23,8 +23,8 @@ public class ContainerRiceCookerGui extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int i, int j) {
         //
         //  par2 is location horizontally     par3 is location vertically
-        this.fontRenderer.drawString("Rice Cooker", 60, 6, 0x404040);
-        this.fontRenderer.drawString("Inventory", 8, this.ySize - 112 + 2, 0x404040);
+        this.fontRenderer.drawString("Rice Cooker", 106, 10, 0x1F2233);
+        this.fontRenderer.drawString("Inventory", 114, this.ySize - 112, 0x404040);
     }
 
     //background layer

@@ -1,4 +1,4 @@
-package btw.community.kittystesting.blocks;
+package btw.community.kittystesting.blocks.riceCooker;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
