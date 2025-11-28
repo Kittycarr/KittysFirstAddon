@@ -1,14 +1,21 @@
 package btw.community.kittystesting.blocks.riceCooker;
 
+import btw.block.tileentity.TileEntityDataPacketHandler;
+import btw.community.kittystesting.kittyscrafting.RiceCookingManager;
+import btw.community.kittystesting.kittyscrafting.RiceCookingRecipes;
 import btw.inventory.util.InventoryUtils;
 import net.minecraft.src.*;
+
+import java.util.List;
 
 //Classes to make the rice cooker: kittystesting/blocks/RiceCooker, kittystesting/blocks/ContainerRiceCooker, kittystesting/blocks/ContainerRiceCookerGui,
 //                                 kittystesting/blocks/TileEntityRiceCooker, kittystesting/blocks/KittysContainers, example/mixin/This
 
-public class TileEntityRiceCooker extends TileEntity implements IInventory {
+public class TileEntityRiceCooker extends TileEntity implements IInventory, TileEntityDataPacketHandler {
 
     private ItemStack[] riceCookerContents = new ItemStack[10];
+    public short storageSlotsOccupied = 0;
+    private boolean forceValidateOnUpdate = true;
 
     @Override
     public int getSizeInventory() {
@@ -35,6 +42,37 @@ public class TileEntityRiceCooker extends TileEntity implements IInventory {
         return null;
     }
 
+    @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        nbttagcompound.setShort("s", this.storageSlotsOccupied);
+        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, nbttagcompound);
+    }
+
+    @Override
+    public void readNBTFromPacket(NBTTagCompound nbttagcompound) {
+        this.storageSlotsOccupied = nbttagcompound.getShort("s");
+        this.worldObj.markBlockRangeForRenderUpdate(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord, this.zCoord);
+    }
+
+    private boolean validateInventoryStateVariables() {
+        boolean bStateChanged = false;
+        short currentSlotsOccupied = (short)InventoryUtils.getNumOccupiedStacks(this);
+        if (currentSlotsOccupied != this.storageSlotsOccupied) {
+            this.storageSlotsOccupied = currentSlotsOccupied;
+            bStateChanged = true;
+        }
+        return bStateChanged;
+    }
+
+    @Override
+    public void onInventoryChanged() {
+        super.onInventoryChanged();
+        this.forceValidateOnUpdate = true;
+        if (this.worldObj != null && this.validateInventoryStateVariables()) {
+            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        }
+    }
 
     @Override
     public void setInventorySlotContents(int i, ItemStack itemStack) {
@@ -63,6 +101,7 @@ public class TileEntityRiceCooker extends TileEntity implements IInventory {
             if (n < 0 || n >= this.riceCookerContents.length) continue;
             this.riceCookerContents[n] = ItemStack.loadItemStackFromNBT(nBTTagCompound2);
         }
+        this.validateInventoryStateVariables();
     }
 
     @Override
@@ -108,5 +147,26 @@ public class TileEntityRiceCooker extends TileEntity implements IInventory {
     @Override
     public boolean isInvNameLocalized() {
         return true;
+    }
+
+    public boolean checkRecipe(){
+        return RiceCookingManager.getInstance().getCraftingResult(this) != null;
+    }
+
+    public void finishCooking(){
+        if (RiceCookingManager.getInstance().getCraftingResult(this) != null) {
+            ItemStack result = RiceCookingManager.getInstance().getCraftingResult(this);
+            ItemStack stackInSlot = getStackInSlot(9);
+            if (stackInSlot != null) {
+                if (stackInSlot == result && stackInSlot.stackSize < stackInSlot.getMaxStackSize()) {
+                    RiceCookingManager.getInstance().consumeIngredientsAndReturnResult(this);
+                    result = result.setStackSize(result.stackSize + stackInSlot.stackSize);
+                    setInventorySlotContents(9, result);
+                }
+            } else {
+                RiceCookingManager.getInstance().consumeIngredientsAndReturnResult(this);
+                setInventorySlotContents(9, result);
+            }
+        }
     }
 }

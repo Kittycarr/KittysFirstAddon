@@ -6,6 +6,7 @@ import btw.block.BTWBlocks;
 import btw.block.MechanicalBlock;
 import btw.block.util.MechPowerUtils;
 import btw.community.kittystesting.blocks.KittysContainers;
+import btw.community.kittystesting.kittyscrafting.KittysRecipeManager;
 import btw.inventory.util.InventoryUtils;
 import btw.util.MiscUtils;
 import net.fabricmc.api.EnvType;
@@ -25,6 +26,7 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
     private Icon frontIcon;
     private Icon backIcon;
     private Icon[] iconBySideArray;
+    private int cookingProgress;
 
     public RiceCooker(int par1) {
         super(par1, Material.iron);
@@ -44,6 +46,9 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
             this.dispenseCookedItem(world.getBlockMetadata(i,j,k),world,i,j,k);
         } else {
             world.scheduleBlockUpdate(i, j, k, this.blockID, this.tickRate(world));
+        }
+        if (canCook(world,i,j,k)){
+            progressCooking(world, i, j, k);
         }
     }
 
@@ -124,6 +129,7 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
         int iFacing = MiscUtils.convertOrientationToFlatBlockFacingReversed(entityLiving);
         this.setFacing(world, i, j, k, iFacing);
         world.scheduleBlockUpdate(i, j, k, this.blockID, this.tickRate(world));
+        cookingProgress = 0;
     }
 
     @Override
@@ -269,6 +275,9 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
         if (this.isRiceCookerOn(world, i, j, k) != bShouldBePowered) {
             this.setRiceCookerOn(world, i, j, k, bShouldBePowered);
         }
+        if (isRiceCookerOn(world, i, j, k)){
+
+        }
     }
 
     @Override
@@ -289,4 +298,21 @@ public class RiceCooker extends BlockContainer implements MechanicalBlock {
         }
     }
 
+    private boolean canCook(World world, int i, int j, int k){
+        TileEntityRiceCooker tileEntity = (TileEntityRiceCooker) world.getBlockTileEntity(i, j, k);
+        return tileEntity.checkRecipe();
+    }
+
+    private void progressCooking(World world, int i, int j, int k){
+        if (cookingProgress == 20){
+            cookFood(world, i, j, k);
+        }
+        cookingProgress++;
+    }
+
+    private void cookFood(World world, int i, int j, int k){
+        cookingProgress = 0;
+        TileEntityRiceCooker tileEntity = (TileEntityRiceCooker) world.getBlockTileEntity(i,j,k);
+        tileEntity.finishCooking();
+    }
 }

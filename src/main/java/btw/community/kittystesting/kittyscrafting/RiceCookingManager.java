@@ -17,7 +17,7 @@ public class RiceCookingManager {
         return this.recipes;
     }
 
-    private ShapelessRecipes createShapelessRecipe(ItemStack par1ItemStack, Object[] par2ArrayOfObj) {
+    private RiceRecipes createRecipe(ItemStack par1ItemStack, Object[] par2ArrayOfObj) {
         List<TagOrStack> arraylist = new ArrayList<TagOrStack>();
         for (Object obj : par2ArrayOfObj) {
             if (obj instanceof ItemStack) {
@@ -32,13 +32,13 @@ public class RiceCookingManager {
                 arraylist.add(new ItemStack((Block)obj));
                 continue;
             }
-            throw new RuntimeException("Invalid shapeless recipe!");
+            throw new RuntimeException("Invalid ricecooking recipe!");
         }
-        return new ShapelessRecipes(par1ItemStack, arraylist);
+        return new RiceRecipes(par1ItemStack, arraylist);
     }
 
-    public boolean removeShapelessRecipe(ItemStack itemStack, Object[] recipeArray) {
-        ShapelessRecipes recipe = this.createShapelessRecipe(itemStack, recipeArray);
+    public boolean removeRecipe(ItemStack itemStack, Object[] recipeArray) {
+        RiceRecipes recipe = this.createRecipe(itemStack, recipeArray);
         int iMatchingIndex = this.getMatchingRecipeIndex(recipe);
         if (iMatchingIndex >= 0) {
             this.recipes.remove(iMatchingIndex);
@@ -47,23 +47,14 @@ public class RiceCookingManager {
         return false;
     }
 
-    private int getMatchingRecipeIndex(IRecipe recipe) {
+    private int getMatchingRecipeIndex(RiceRecipes recipe) {
         int iMatchingRecipeIndex = -1;
         for (int iIndex = 0; iIndex < this.recipes.size(); ++iIndex) {
-            IRecipe tempRecipe = (IRecipe)this.recipes.get(iIndex);
+            RiceRecipes tempRecipe = (RiceRecipes)this.recipes.get(iIndex);
             if (!tempRecipe.matches(recipe)) continue;
             return iIndex;
         }
         return -1;
-    }
-
-    public ItemStack findMatchingRecipeStack(InventoryCrafting inventorycrafting, World world) {
-        for (int i = 0; i < this.recipes.size(); ++i) {
-            IRecipe irecipe = (IRecipe)this.recipes.get(i);
-            if (!irecipe.matches(inventorycrafting, world)) continue;
-            return irecipe.getCraftingResult(inventorycrafting);
-        }
-        return null;
     }
 
     public IRecipe findMatchingRecipe(InventoryCrafting inventory, World world) {
@@ -75,7 +66,7 @@ public class RiceCookingManager {
         return null;
     }
 
-    public void addShapelessRecipe(ItemStack itemstack, Object[] aobj) {
+    public void addRecipe(ItemStack itemstack, Object[] aobj) {
         List<TagOrStack> arraylist = new ArrayList<TagOrStack>();
         for (Object obj : aobj) {
             if (obj instanceof ItemStack) {
@@ -90,10 +81,27 @@ public class RiceCookingManager {
                 arraylist.add(new ItemStack((Block)obj));
                 continue;
             }
-            throw new RuntimeException("Invalid shapeless recipe!");
+            throw new RuntimeException("Invalid ricecooking recipe!");
         }
-        this.recipes.add(new ShapelessRecipes(itemstack, arraylist));
+        this.recipes.add(new RiceRecipes(itemstack, arraylist));
     }
 
+    public ItemStack getCraftingResult(IInventory inventory) {
+        for (int i = 0; i < this.recipes.size(); ++i) {
+            RiceRecipes tempRecipe = (RiceRecipes) this.recipes.get(i);
+            if (!tempRecipe.doesInventoryContainIngredients(inventory)) continue;
+            return tempRecipe.getCraftingOutputList();
+        }
+        return null;
+    }
 
+    public ItemStack consumeIngredientsAndReturnResult(IInventory inventory) {
+        for (int i = 0; i < this.recipes.size(); ++i) {
+            RiceRecipes tempRecipe = (RiceRecipes) this.recipes.get(i);
+            if (!tempRecipe.doesInventoryContainIngredients(inventory)) continue;
+            tempRecipe.consumeInventoryIngredients(inventory);
+            return tempRecipe.getCraftingOutputList();
+        }
+        return null;
+    }
 }

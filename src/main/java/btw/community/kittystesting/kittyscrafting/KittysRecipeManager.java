@@ -9,11 +9,11 @@ public abstract class KittysRecipeManager {
 
     }
 
-    public static void addShapelessRiceCookingRecipe(ItemStack itemStack, Object[] pattern) {
-        RiceCookingManager.getInstance().addShapelessRecipe(itemStack, pattern);
+    public static void addRiceCookingRecipe(ItemStack itemStack, Object[] pattern) {
+        RiceCookingManager.getInstance().addRecipe(itemStack, pattern);
     }
 
-    public static void removeShapelessRiceCookingRecipe(ItemStack itemStack, Object[] inputs) {
-        RiceCookingManager.getInstance().removeShapelessRecipe(itemStack, inputs);
+    public static void removeRiceCookingRecipe(ItemStack itemStack, Object[] inputs) {
+        RiceCookingManager.getInstance().removeRecipe(itemStack, inputs);
     }
 }

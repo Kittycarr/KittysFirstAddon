@@ -7,7 +7,7 @@ import net.minecraft.src.ItemStack;
 public class RiceCookingRecipes {
 
     public static void initializeRecipies(){
-        KittysRecipeManager.addShapelessRiceCookingRecipe(new ItemStack(BTWItems.tastySandwich), new Object[]{
+        KittysRecipeManager.addRiceCookingRecipe(new ItemStack(BTWItems.tastySandwich, 2), new Object[]{
                 new ItemStack(Item.bread),
                 new ItemStack(BTWItems.cookedMutton)
         });
